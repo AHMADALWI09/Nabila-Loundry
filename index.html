@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nabila Laundry — Bersih, Wangi, Tepat Waktu</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  
+  <style>
+    :root { --primary: #0d6efd; --primary-dark: #0a58ca; --accent: #00c9a7; --dark: #1e293b; --wa-color: #25D366; }
+    * { font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { color: #334155; background: #f8fafc; overflow-x: hidden; scroll-behavior: smooth; }
+    
+    /* NAVBAR */
+    .navbar { background: rgba(255,255,255,.95); backdrop-filter: blur(10px); border-bottom: 1px solid #e2e8f0; z-index: 1050; }
+    .navbar-brand { font-weight: 800; font-size: 1.4rem; color: var(--primary) !important; cursor: pointer; }
+    .navbar-brand span { color: var(--accent); }
+    
+    /* HERO */
+    .hero { background: linear-gradient(135deg, #eff6ff 0%, #f0fdfa 100%); padding: 80px 0 60px; }
+    .hero h1 { font-weight: 800; color: var(--dark); font-size: 2.8rem; }
+    .hero h1 span { color: var(--primary); }
+    
+    /* DESAIN FOTO BAPAK ATAS (DIPERBESAR) */
+    .hero-img-wrapper {
+      position: relative;
+      display: inline-block;
+      padding: 20px;
+    }
+    .hero-img {
+      max-height: 500px; /* Diperbesar */
+      border-radius: 30px;
+      background-color: transparent; 
+      filter: drop-shadow(0 15px 25px rgba(0,0,0,0.15));
+      animation: floatAnim 4s ease-in-out infinite;
+      transition: transform 0.3s ease;
+    }
+    @keyframes floatAnim {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+      100% { transform: translateY(0px); }
+    }
+
+    /* ANIMASI BAPAK NGEBUT KE FORM */
+    .riding-effect {
+      animation: ridingAnim 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+      pointer-events: none;
+    }
+    @keyframes ridingAnim {
+      0% { transform: translateY(0) rotate(0deg) scale(1); }
+      20% { transform: translateY(-30px) rotate(-10deg) scale(1.1); }
+      50% { transform: translateY(100px) rotate(15deg) scale(1.1); opacity: 1; }
+      100% { transform: translateY(1000px) rotate(25deg) scale(0.5); opacity: 0; }
+    }
+
+    /* FOTO BAPAK DI SAMPING FORM (DIPERBESAR & SLIDESHOW) */
+    .form-dad-img {
+      max-height: 550px; /* DIPERBESAR LAGI DARI 450px */
+      border-radius: 20px;
+      filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
+      animation: floatAnim 5s ease-in-out infinite;
+      transition: opacity 0.4s ease-in-out; /* Efek halus saat foto berganti */
+    }
+
+    /* CARDS & FORMS */
+    .pricing-card { border: 1px solid #e2e8f0; border-radius: 20px; padding: 2rem 1.5rem; background: #fff; height: 100%; transition: 0.3s; }
+    .pricing-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-color: var(--primary); }
+    .form-control, .form-select { border-radius: 12px; padding: .75rem 1rem; border: 1.5px solid #e2e8f0; }
+    .form-control:focus, .form-select:focus { border-color: var(--primary); box-shadow: 0 0 0 .2rem rgba(13,110,253,.15); }
+    .btn-primary { background: var(--primary); border: none; border-radius: 12px; padding: .75rem 1.5rem; font-weight: 600; }
+    
+    /* AUTH WRAPPER */
+    .auth-wrapper { min-height: calc(100vh - 70px); display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg,#eff6ff 0%,#f0fdfa 100%); padding: 2rem; }
+    .auth-card { background: #fff; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,.08); padding: 2.5rem; width: 100%; max-width: 440px; }
+    
+    /* DASHBOARD */
+    .stat-card { background: #fff; border-radius: 14px; padding: 1.2rem; border-left: 4px solid; box-shadow: 0 2px 10px rgba(0,0,0,.03); }
+    .stat-card .label { font-size: .8rem; color: #64748b; font-weight: 600; text-transform: uppercase; }
+    .stat-card .value { font-size: 1.8rem; font-weight: 800; color: var(--dark); }
+    .stat-masuk { border-color: #0ea5e9; } .stat-proses { border-color: #f59e0b; } .stat-selesai { border-color: #22c55e; } .stat-diantar { border-color: #6366f1; }
+    
+    .order-card { background: #fff; border-radius: 14px; padding: 1.2rem; margin-bottom: 1rem; border: 1px solid #e2e8f0; }
+    .status-badge { font-size: .8rem; font-weight: 700; padding: .35rem .9rem; border-radius: 50px; }
+    .st-Masuk { background:#e0f2fe; color:#0369a1; } .st-Proses { background:#fef3c7; color:#b45309; } .st-Selesai { background:#dcfce7; color:#15803d; } .st-Diantar { background:#e0e7ff; color:#4338ca; } .st-Dibatalkan { background:#fee2e2; color:#b91c1c; }
+    
+    .nav-pills .nav-link { border-radius: 50px; font-weight: 600; font-size: .9rem; color: #475569; cursor: pointer; }
+    .nav-pills .nav-link.active { background: var(--primary); color: #fff; }
+    
+    /* TIMELINE */
+    .timeline { display: flex; margin: 1.2rem 0; }
+    .step { flex: 1; text-align: center; position: relative; }
+    .step::before { content: ''; position: absolute; top: 14px; left: 0; right: 50%; height: 3px; background: #e2e8f0; z-index: 1; }
+    .step:first-child::before { display: none; }
+    .step.done::before { background: var(--primary); }
+    .dot { width: 30px; height: 30px; border-radius: 50%; background: #e2e8f0; color: #fff; margin: 0 auto 6px; display: flex; align-items: center; justify-content: center; font-size: .75rem; position: relative; z-index: 2; border: 3px solid #fff; box-shadow: 0 0 0 2px #e2e8f0; }
+    .step.done .dot { background: var(--primary); box-shadow: 0 0 0 2px var(--primary); }
+    .label-step { font-size: .72rem; color: #94a3b8; font-weight: 700; }
+    .step.done .label-step { color: var(--dark); }
+
+    /* UTILS */
+    .app-view { display: none; animation: fadeIn 0.3s ease; }
+    .app-view.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .welcome-banner { background: linear-gradient(135deg, #0d6efd 0%, #0ea5e9 100%); color: #fff; border-radius: 20px; padding: 2rem; margin-bottom: 1.5rem; }
+
+    /* FLOATING WHATSAPP CHAT */
+    .floating-chat {
+      position: fixed; bottom: 30px; right: 30px;
+      background-color: var(--wa-color); color: white;
+      border-radius: 50px; padding: 12px 24px;
+      font-size: 1rem; font-weight: 700;
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; z-index: 9999;
+      transition: all 0.3s ease;
+    }
+    .floating-chat:hover { background-color: #20b858; color: white; transform: translateY(-5px); box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6); }
+    .floating-chat i { font-size: 1.5rem; }
+
+    /* ICON MATA PASSWORD */
+    .password-wrapper { position: relative; }
+    .toggle-password { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #94a3b8; z-index: 10; }
+    .toggle-password:hover { color: var(--primary); }
+
+    /* PROMO ICON */
+    .promo-icon { width: 60px; height: 60px; background: #e0f2fe; color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 1rem; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container">
+    <a class="navbar-brand" onclick="goTo('home')"><i class="fas fa-soap me-1"></i> Nabila<span>Laundry</span></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+        <li class="nav-item"><a class="nav-link" href="#" onclick="goTo('home')">Beranda</a></li>
+        
+        <li class="nav-item" id="navCustAuth"><a class="nav-link" href="#" onclick="goTo('cust-auth')"><i class="fas fa-user me-1"></i> Akun Saya</a></li>
+        <li class="nav-item" id="navCustDash" style="display:none;"><a class="nav-link" href="#" onclick="goTo('cust-dash')"><i class="fas fa-box me-1"></i> Pesanan Saya</a></li>
+        <li class="nav-item" id="navCustLogout" style="display:none;"><a class="nav-link text-danger" href="#" onclick="logoutCustomer()"><i class="fas fa-sign-out-alt me-1"></i> Keluar</a></li>
+        
+        <li class="nav-item" id="navAdminAuth"><a class="btn btn-primary btn-sm px-3" href="#" onclick="goTo('admin-auth')"><i class="fas fa-lock me-1"></i> Login Admin</a></li>
+        <li class="nav-item" id="navAdminDash" style="display:none;"><a class="btn btn-warning btn-sm px-3 fw-bold" href="#" onclick="goTo('admin-dash')"><i class="fas fa-tachometer-alt me-1"></i> Panel Admin</a></li>
+        <li class="nav-item" id="navAdminLogout" style="display:none;"><a class="nav-link text-danger" href="#" onclick="logoutAdmin()"><i class="fas fa-power-off me-1"></i> Keluar Admin</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- VIEW 1: BERANDA -->
+<div id="view-home" class="app-view active">
+  
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-7 text-center text-lg-start mb-4 mb-lg-0">
+          <h1>Cucian Bersih, <span>Wangi</span>,<br>Tepat Waktu.</h1>
+          <p class="mt-3 fs-5 text-muted">Nabila Laundry siap menjemput cucian kotor Anda. Melayani cuci kering, setrika, hingga perlengkapan rumah tangga.</p>
+          
+          <!-- Tombol dengan animasi trigger -->
+          <button onclick="triggerRide()" class="btn btn-primary btn-lg mt-3 px-4 py-3"><i class="fas fa-motorcycle me-2"></i> Jemput Cucian Sekarang</button>
+          
+        </div>
+        <div class="col-lg-5 text-center">
+          
+          <!-- WRAPPER UNTUK FOTO ATAS -->
+          <div class="hero-img-wrapper">
+            <!-- FOTO BAPAK ATAS (DIPERBESAR) -->
+            <img src="https://lh3.googleusercontent.com/d/1ityb9dm3Kb4JQBONFo2wpVWpDK5apJ93" id="dadHeroImg" alt="Pemilik Nabila Laundry" class="hero-img img-fluid">
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEKSI PROMO / KEUNGGULAN -->
+  <section class="py-4 bg-white border-bottom">
+    <div class="container">
+      <div class="row text-center g-4">
+        <div class="col-md-4">
+          <div class="promo-icon"><i class="fas fa-truck"></i></div>
+          <h6 class="fw-bold">Antar-Jemput Gratis</h6>
+          <p class="text-muted small mb-0">Khusus area terdekat, tanpa biaya tambahan.</p>
+        </div>
+        <div class="col-md-4">
+          <div class="promo-icon"><i class="fas fa-spray-can"></i></div>
+          <h6 class="fw-bold">Pewangi Premium</h6>
+          <p class="text-muted small mb-0">Wangi tahan lama hingga 3 hari.</p>
+        </div>
+        <div class="col-md-4">
+          <div class="promo-icon"><i class="fas fa-shield-check"></i></div>
+          <h6 class="fw-bold">Garansi Cuci Ulang</h6>
+          <p class="text-muted small mb-0">Jika kurang bersih, cuci ulang gratis.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEKSI LAYANAN & HARGA -->
+  <section class="py-5 bg-light">
+    <div class="container">
+      <h2 class="text-center fw-bold mb-4">Daftar Harga Layanan</h2>
+      <div class="row g-3 justify-content-center">
+        
+        <!-- Layanan Pakaian -->
+        <div class="col-md-4">
+          <div class="pricing-card">
+            <h5 class="fw-bold mb-3 text-primary border-bottom pb-2">Pakaian & Bed Cover</h5>
+            <ul class="list-unstyled mb-0">
+              <li class="d-flex justify-content-between mb-2"><span>Reguler (2-3 Hari)</span> <strong>Rp 7.000/kg</strong></li>
+              <li class="d-flex justify-content-between mb-2"><span>Kilat (1 Hari)</span> <strong>Rp 10.000/kg</strong></li>
+              <li class="d-flex justify-content-between mb-2"><span>Satuan (Jas/Gaun)</span> <strong>Rp 15.000/pcs</strong></li>
+              <li class="d-flex justify-content-between mb-2"><span>Karpet (Bet)</span> <strong>Rp 30.000/pcs</strong></li>
+              <li class="d-flex justify-content-between mb-2"><span>Selimut Kecil</span> <strong>Rp 15.000/pcs</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Layanan Rumah Tangga -->
+        <div class="col-md-4">
+          <div class="pricing-card border-primary">
+            <h5 class="fw-bold mb-3 text-primary border-bottom pb-2">Perlengkapan Rumah</h5>
+            <ul class="list-unstyled mb-0">
+              <li class="d-flex justify-content-between mb-2"><span>Seprei (1 Set Cuci+Setrika)</span> <strong>Rp 10.000/set</strong></li>
+              <li class="d-flex justify-content-between mb-2"><span>Karpet Permadani Besar</span> <strong>Rp 35.000/pcs</strong></li>
+              <li class="d-flex justify-content-between mb-2"><span>Karpet Permadani Sedang</span> <strong>Rp 25.000/pcs</strong></li>
+            </ul>
+            <div class="alert alert-info mt-3 mb-0 small p-2">
+              <i class="fas fa-info-circle me-1"></i> Harga dapat berubah tergantung tingkat kekotoran.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SEKSI FORM PESANAN -->
+  <section class="py-5" id="form-pesan">
+    <div class="container">
+      
+      <div class="row justify-content-center align-items-center">
+        
+        <!-- FOTO BAPAK DI SAMPING FORM (SLIDESHOW 3 FOTO BARU & DIPERBESAR) -->
+        <div class="col-md-5 text-center d-none d-lg-block mb-4">
+            <img src="https://lh3.googleusercontent.com/d/1Mtb-2JBBEllogT3xtckTH8VbR_xbPD1o" id="bottomDadImg" alt="Pak Nabila" class="form-dad-img img-fluid">
+        </div>
+
+        <div class="col-lg-7">
+          <div class="card p-4 border-0 shadow-sm" style="border-radius: 20px;">
+            <h3 class="fw-bold mb-4 text-center">Form Pemesanan</h3>
+            <form id="orderForm">
+              <div class="row g-3">
+                <div class="col-md-6"><label class="form-label small fw-bold">Nama</label><input type="text" class="form-control" id="pesanNama" required></div>
+                <div class="col-md-6"><label class="form-label small fw-bold">WhatsApp</label><input type="tel" class="form-control" id="pesanWa" placeholder="08xxxxxx" required></div>
+                <div class="col-12"><label class="form-label small fw-bold">Alamat</label><textarea class="form-control" id="pesanAlamat" rows="2" required></textarea></div>
+                <div class="col-md-6">
+                  <label class="form-label small fw-bold">Layanan</label>
+                  <select class="form-select" id="pesanLayanan" required>
+                    <option value="" disabled selected>Pilih Layanan</option>
+                    <optgroup label="Pakaian">
+                      <option value="Reguler" data-harga="7000">Reguler (Rp 7.000/kg)</option>
+                      <option value="Kilat (Express)" data-harga="10000">Kilat (Rp 10.000/kg)</option>
+                      <option value="Satuan (Jas/Gaun)" data-harga="15000">Satuan (Rp 15.000/pcs)</option>
+                    </optgroup>
+                    <optgroup label="Perlengkapan Rumah">
+                      <option value="Karpet (Bet)" data-harga="30000">Karpet Bet (Rp 30.000/pcs)</option>
+                      <option value="Selimut Kecil" data-harga="15000">Selimut Kecil (Rp 15.000/pcs)</option>
+                      <option value="Seprei 1 Set" data-harga="10000">Seprei 1 Set Cuci+Setrika (Rp 10.000/set)</option>
+                      <option value="Permadani Besar" data-harga="35000">Permadani Besar (Rp 35.000/pcs)</option>
+                      <option value="Permadani Sedang" data-harga="25000">Permadani Sedang (Rp 25.000/pcs)</option>
+                    </optgroup>
+                  </select>
+                </div>
+                <div class="col-md-6"><label class="form-label small fw-bold">Berat (kg) / Jumlah (pcs)</label><input type="number" class="form-control" id="pesanBerat" min="1" step="0.1" required></div>
+                <div class="col-12">
+                  <div class="alert alert-info d-flex justify-content-between" id="estimasiBox" style="display:none;">
+                    <span>Estimasi Total:</span> <strong id="estimasiTotal">Rp 0</strong>
+                  </div>
+                </div>
+                <div class="col-12"><button type="submit" class="btn btn-primary w-100" id="btnSubmitPesanan">Buat Pesanan</button></div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SEKSI CEK STATUS -->
+  <section class="py-5 bg-light">
+    <div class="container text-center">
+      <h3 class="fw-bold mb-4">Cek Status Cucian (Tanpa Login)</h3>
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="input-group">
+            <input type="text" class="form-control" id="inputOrderId" placeholder="Masukkan Order ID (LDY-...)">
+            <button class="btn btn-primary" id="btnCekStatus">Cek</button>
+          </div>
+          <div id="statusResult" class="mt-3 p-3 rounded text-start" style="display:none;"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- VIEW 2: LOGIN CUSTOMER -->
+<div id="view-cust-auth" class="app-view auth-wrapper">
+  <div class="auth-card">
+    <div class="text-center mb-4">
+      <i class="fas fa-user-circle fa-3x text-primary"></i>
+      <h3 class="mt-2 fw-bold">Akun Pelanggan</h3>
+    </div>
+    
+    <ul class="nav nav-tabs mb-3 justify-content-center" style="border:none;">
+      <li class="nav-item"><button class="nav-link active border-0 fw-bold" onclick="switchAuthTab('login')" id="tabLogin">Masuk</button></li>
+      <li class="nav-item"><button class="nav-link border-0 fw-bold text-muted" onclick="switchAuthTab('register')" id="tabRegister">Daftar Baru</button></li>
+    </ul>
+
+    <form id="loginForm">
+      <div class="mb-3"><label class="form-label small fw-bold">No. WhatsApp</label><input type="tel" class="form-control" id="loginWa" placeholder="08xxxxxx" required></div>
+      
+      <div class="mb-1">
+        <label class="form-label small fw-bold">Password</label>
+        <div class="password-wrapper">
+          <input type="password" class="form-control" id="loginPin" required>
+          <i class="fas fa-eye-slash toggle-password" onclick="togglePassword('loginPin', this)"></i>
+        </div>
+      </div>
+      <div class="text-end mb-3">
+        <a href="#" class="small text-decoration-none" onclick="showForgotModal()">Lupa Password?</a>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100" id="btnLoginCust">Masuk</button>
+    </form>
+
+    <form id="registerForm" style="display:none;">
+      <div class="mb-3"><label class="form-label small fw-bold">Nama</label><input type="text" class="form-control" id="regNama" required></div>
+      <div class="mb-3"><label class="form-label small fw-bold">WhatsApp</label><input type="tel" class="form-control" id="regWa" placeholder="08xxxxxx" required></div>
+      <div class="mb-3"><label class="form-label small fw-bold">Alamat</label><textarea class="form-control" id="regAlamat" rows="2" required></textarea></div>
+      
+      <div class="mb-3">
+        <label class="form-label small fw-bold">Buat Password</label>
+        <div class="password-wrapper">
+          <input type="password" class="form-control" id="regPin" required>
+          <i class="fas fa-eye-slash toggle-password" onclick="togglePassword('regPin', this)"></i>
+        </div>
+      </div>
+      
+      <button type="submit" class="btn btn-primary w-100" id="btnRegisterCust">Daftar Sekarang</button>
+    </form>
+  </div>
+</div>
+
+<!-- VIEW 3: DASHBOARD CUSTOMER -->
+<div id="view-cust-dash" class="app-view container py-4">
+  <div class="welcome-banner">
+    <h2>Halo, <span id="custNameDisplay">Pelanggan</span> 👋</h2>
+    <p class="mb-0">Terima kasih telah menggunakan layanan Nabila Laundry.</p>
+  </div>
+  <h4 class="fw-bold mb-3">Riwayat Pesanan Anda</h4>
+  <div id="custOrdersList"></div>
+</div>
+
+<!-- VIEW 4: LOGIN ADMIN -->
+<div id="view-admin-auth" class="app-view auth-wrapper" style="background:#f1f5f9;">
+  <div class="auth-card">
+    <div class="text-center mb-4">
+      <i class="fas fa-shield-alt fa-3x text-primary"></i>
+      <h3 class="mt-2 fw-bold">Admin Nabila</h3>
+    </div>
+    <form id="adminLoginForm">
+      <div class="mb-3"><label class="form-label small fw-bold">Username</label><input type="text" class="form-control" id="adminUser" placeholder="admin" required></div>
+      
+      <div class="mb-3">
+        <label class="form-label small fw-bold">Password</label>
+        <div class="password-wrapper">
+          <input type="password" class="form-control" id="adminPass" placeholder="••••••••" required>
+          <i class="fas fa-eye-slash toggle-password" onclick="togglePassword('adminPass', this)"></i>
+        </div>
+      </div>
+
+      <div id="adminLoginError" class="alert alert-danger py-2 small" style="display:none;"></div>
+      <button type="submit" class="btn btn-primary w-100" id="btnLoginAdmin">Masuk Dashboard</button>
+    </form>
+  </div>
+</div>
+
+<!-- VIEW 5: DASHBOARD ADMIN -->
+<div id="view-admin-dash" class="app-view container-fluid px-3 px-md-4 py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="fw-bold m-0">Dashboard Admin</h3>
+    <button class="btn btn-sm btn-outline-secondary" onclick="loadAdminOrders()"><i class="fas fa-sync-alt"></i> Refresh Data</button>
+  </div>
+
+  <div class="row g-3 mb-4" id="adminStatsRow"></div>
+  
+  <div class="row mb-3">
+    <div class="col-md-6"><input type="text" class="form-control" id="adminSearch" placeholder="🔍 Cari nama, WhatsApp, atau Order ID..."></div>
+  </div>
+
+  <ul class="nav nav-pills mb-3 flex-wrap gap-1" id="adminFilterTabs">
+    <li class="nav-item"><a class="nav-link active" data-filter="Semua">Semua</a></li>
+    <li class="nav-item"><a class="nav-link" data-filter="Masuk">Masuk</a></li>
+    <li class="nav-item"><a class="nav-link" data-filter="Proses">Proses</a></li>
+    <li class="nav-item"><a class="nav-link" data-filter="Selesai">Selesai</a></li>
+    <li class="nav-item"><a class="nav-link" data-filter="Diantar">Diantar</a></li>
+  </ul>
+
+  <div id="adminOrdersList"></div>
+</div>
+
+<!-- MODAL SUKSES PESANAN -->
+<div class="modal fade" id="suksesModal" tabindex="-1" data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow" style="border-radius: 20px;">
+      <div class="modal-body text-center p-4">
+        <i class="fas fa-check-circle text-success fa-5x mb-3"></i>
+        <h4 class="fw-bold">Pesanan Berhasil!</h4>
+        <p class="text-muted">Simpan kode pesanan di bawah ini untuk melacak status cucian Anda.</p>
+        
+        <div class="input-group mb-4 mt-3">
+          <input type="text" class="form-control text-center fw-bold fs-5 bg-light" id="generatedOrderId" readonly>
+          <button class="btn btn-primary" onclick="copyOrderId()" id="btnCopy">
+            <i class="fas fa-copy"></i> Salin
+          </button>
+        </div>
+        
+        <button type="button" class="btn btn-outline-secondary w-100" data-bs-dismiss="modal" onclick="goTo('home')">Tutup</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL LUPA PASSWORD -->
+<div class="modal fade" id="forgotModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow" style="border-radius: 20px;">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="fw-bold m-0">Lupa Password?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body text-center p-4">
+        <i class="fab fa-whatsapp text-success fa-4x mb-3"></i>
+        <p class="text-muted mb-4">Masukkan nomor WhatsApp yang terdaftar. Admin kami akan segera mereset password Anda melalui chat.</p>
+        <input type="tel" class="form-control mb-3" id="forgotWa" placeholder="Masukkan No. WhatsApp Anda (08xxxxxx)">
+        <button class="btn btn-success w-100" onclick="sendForgotWa()">
+          <i class="fab fa-whatsapp me-2"></i> Hubungi Admin
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FLOATING CHAT WHATSAPP -->
+<a href="https://wa.me/62895329717891?text=Halo%20Admin%20Nabila%20Laundry,%20saya%20ingin%20bertanya." target="_blank" class="floating-chat">
+  <i class="fab fa-whatsapp"></i> Chat Admin
+</a>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyw9A1Sid48yf7Ri7UzXr1VzP5nK5c4-59tkVJrVteQTceBRIGv3uNx6XVx8JUBOlAKiQ/exec';
+  const STATUS_STEPS = ['Masuk', 'Proses', 'Selesai', 'Diantar'];
+  const ICONS = ['fa-inbox', 'fa-spinner', 'fa-check', 'fa-truck'];
+  const ADMIN_STATUS_LIST = ['Masuk', 'Proses', 'Selesai', 'Diantar', 'Dibatalkan'];
+
+  let allAdminOrders = [];
+  let adminFilter = 'Semua';
+  let adminSearchText = '';
+  const suksesModal = new bootstrap.Modal(document.getElementById('suksesModal'));
+  const forgotModal = new bootstrap.Modal(document.getElementById('forgotModal'));
+
+  // ==========================================
+  // LOGIKA SLIDESHOW FOTO BAWAH (3 POSE BARU)
+  // ==========================================
+  const fotoBawah = [
+    'https://lh3.googleusercontent.com/d/1Mtb-2JBBEllogT3xtckTH8VbR_xbPD1o',
+    'https://lh3.googleusercontent.com/d/1ay9IFNRN-mti13STa2OhlgTE3ZiIa3QG',
+    'https://lh3.googleusercontent.com/d/1nwMJpmWnFCYeH1HOIpBo3JzPE8_fAeVq'
+  ];
+  let indexFoto = 0;
+  const imgElement = document.getElementById('bottomDadImg');
+
+  function gantiPose() {
+    // Efek transisi pudar (fade out)
+    imgElement.style.opacity = 0;
+    
+    setTimeout(() => {
+      indexFoto = (indexFoto + 1) % fotoBawah.length;
+      imgElement.src = fotoBawah[indexFoto];
+      // Efek transisi muncul (fade in)
+      imgElement.style.opacity = 1;
+    }, 400); // 400ms sesuai dengan CSS transition
+  }
+
+  // Jalankan ganti pose setiap 2 detik (2000ms)
+  if (imgElement) {
+    setInterval(gantiPose, 2000);
+  }
+
+  // ==========================================
+  // FUNGSI LAINNYA
+  // ==========================================
+  function triggerRide() {
+    const img = document.getElementById('dadHeroImg');
+    img.classList.add('riding-effect');
+    
+    setTimeout(() => {
+      document.getElementById('form-pesan').scrollIntoView({ behavior: 'smooth' });
+    }, 500);
+
+    setTimeout(() => {
+      img.classList.remove('riding-effect');
+    }, 3000);
+  }
+
+  function togglePassword(inputId, iconElement) {
+    const input = document.getElementById(inputId);
+    if (input.type === 'password') {
+      input.type = 'text';
+      iconElement.classList.remove('fa-eye-slash');
+      iconElement.classList.add('fa-eye');
+    } else {
+      input.type = 'password';
+      iconElement.classList.remove('fa-eye');
+      iconElement.classList.add('fa-eye-slash');
+    }
+  }
+
+  function showForgotModal() { forgotModal.show(); }
+
+  function sendForgotWa() {
+    const wa = document.getElementById('forgotWa').value.trim();
+    if (!wa) {
+      alert('Silakan masukkan nomor WhatsApp Anda terlebih dahulu.');
+      return;
+    }
+    const adminWa = '62895329717891';
+    const text = `Halo Admin Nabila Laundry,\n\nSaya lupa password akun saya. Mohon bantu reset password untuk nomor WhatsApp: *${wa}*.\n\nTerima kasih.`;
+    window.open(`https://wa.me/${adminWa}?text=${encodeURIComponent(text)}`, '_blank');
+    forgotModal.hide();
+    document.getElementById('forgotWa').value = '';
+  }
+
+  function updateNavbar() {
+    const isCust = !!localStorage.getItem('cust_token');
+    const isAdmin = !!localStorage.getItem('admin_token');
+
+    document.getElementById('navCustAuth').style.display = 'none';
+    document.getElementById('navCustDash').style.display = 'none';
+    document.getElementById('navCustLogout').style.display = 'none';
+    document.getElementById('navAdminAuth').style.display = 'none';
+    document.getElementById('navAdminDash').style.display = 'none';
+    document.getElementById('navAdminLogout').style.display = 'none';
+
+    if (isAdmin) {
+      document.getElementById('navAdminDash').style.display = 'block';
+      document.getElementById('navAdminLogout').style.display = 'block';
+    } else if (isCust) {
+      document.getElementById('navCustDash').style.display = 'block';
+      document.getElementById('navCustLogout').style.display = 'block';
+    } else {
+      document.getElementById('navCustAuth').style.display = 'block';
+      document.getElementById('navAdminAuth').style.display = 'block';
+    }
+  }
+
+  function goTo(viewId) {
+    document.querySelectorAll('.app-view').forEach(el => el.classList.remove('active'));
+    const target = document.getElementById('view-' + viewId);
+    if(target) {
+      target.classList.add('active');
+      window.scrollTo(0,0);
+    }
+    updateNavbar();
+    if(viewId === 'admin-dash') loadAdminOrders();
+    if(viewId === 'cust-dash') loadCustomerOrders();
+    if(viewId === 'home') autoFillForm();
+  }
+
+  function showToast(type, msg) {
+    const el = document.getElementById(type === 'success' ? 'toastSuccess' : 'toastError');
+    const m = document.getElementById(type === 'success' ? 'toastMessage' : 'toastErrorMessage');
+    m.textContent = msg;
+    el.style.display = 'block';
+    setTimeout(() => el.style.display = 'none', 3500);
+  }
+
+  function autoFillForm() {
+    const cust = JSON.parse(localStorage.getItem('washpro_customer') || 'null');
+    if (cust) {
+      if (cust.nama) document.getElementById('pesanNama').value = cust.nama;
+      if (cust.whatsapp) document.getElementById('pesanWa').value = cust.whatsapp;
+      if (cust.alamat) document.getElementById('pesanAlamat').value = cust.alamat;
+    }
+  }
+
+  function copyOrderId() {
+    const copyText = document.getElementById("generatedOrderId");
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);
+    navigator.clipboard.writeText(copyText.value).then(() => {
+      const btn = document.getElementById('btnCopy');
+      const originalHTML = btn.innerHTML;
+      btn.innerHTML = '<i class="fas fa-check"></i> Tersalin!';
+      btn.classList.replace('btn-primary', 'btn-success');
+      setTimeout(() => {
+        btn.innerHTML = originalHTML;
+        btn.classList.replace('btn-success', 'btn-primary');
+      }, 2000);
+    }).catch(err => { alert('Gagal menyalin: ' + err); });
+  }
+
+  const pesanLayanan = document.getElementById('pesanLayanan');
+  const pesanBerat = document.getElementById('pesanBerat');
+
+  function hitungEstimasi() {
+    const opt = pesanLayanan.options[pesanLayanan.selectedIndex];
+    const harga = opt ? parseInt(opt.dataset.harga || 0) : 0;
+    const berat = parseFloat(pesanBerat.value) || 0;
+    if (harga > 0 && berat > 0) {
+      document.getElementById('estimasiTotal').textContent = 'Rp ' + (harga * berat).toLocaleString('id-ID');
+      document.getElementById('estimasiBox').style.display = 'flex';
+    } else {
+      document.getElementById('estimasiBox').style.display = 'none';
+    }
+  }
+  pesanLayanan.addEventListener('change', hitungEstimasi);
+  pesanBerat.addEventListener('input', hitungEstimasi);
+
+  document.getElementById('orderForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const btn = document.getElementById('btnSubmitPesanan');
+    btn.disabled = true; btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Mengirim...';
+
+    const opt = pesanLayanan.options[pesanLayanan.selectedIndex];
+    const harga = parseInt(opt.dataset.harga || 0);
+    const berat = parseFloat(pesanBerat.value) || 0;
+
+    const payload = {
+      action: 'create',
+      nama: document.getElementById('pesanNama').value,
+      whatsapp: document.getElementById('pesanWa').value,
+      alamat: document.getElementById('pesanAlamat').value,
+      layanan: pesanLayanan.value,
+      berat: berat,
+      total: harga * berat
+    };
+
+    try {
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      
+      if (data.status === 'success') {
+        document.getElementById('generatedOrderId').value = data.orderId;
+        suksesModal.show();
+        this.reset(); hitungEstimasi();
+      } else { alert('Gagal: ' + data.message); }
+    } catch (err) { alert('Koneksi internet gagal.'); }
+    
+    btn.disabled = false; btn.innerHTML = 'Buat Pesanan';
+  });
+
+  document.getElementById('btnCekStatus').addEventListener('click', async () => {
+    const id = document.getElementById('inputOrderId').value.trim();
+    if (!id) return;
+    const box = document.getElementById('statusResult');
+    box.style.display = 'block'; box.className = 'mt-3 p-3 rounded alert alert-info';
+    box.innerHTML = 'Mencari data...';
+    
+    try {
+      const res = await fetch(`${APPS_SCRIPT_URL}?action=status&orderId=${encodeURIComponent(id)}`);
+      const data = await res.json();
+      if (data.status === 'found') {
+        box.className = 'mt-3 p-3 rounded alert alert-success';
+        box.innerHTML = `<b>Ditemukan!</b><br>Nama: ${data.order.nama}<br>Layanan: ${data.order.layanan}<br><b>Status: ${data.order.status}</b>`;
+      } else {
+        box.className = 'mt-3 p-3 rounded alert alert-danger';
+        box.innerHTML = 'Pesanan tidak ditemukan.';
+      }
+    } catch { box.innerHTML = 'Gagal mengecek status.'; }
+  });
+
+  function switchAuthTab(tab) {
+    if(tab === 'login') {
+      document.getElementById('tabLogin').classList.add('active');
+      document.getElementById('tabRegister').classList.remove('active');
+      document.getElementById('loginForm').style.display = 'block';
+      document.getElementById('registerForm').style.display = 'none';
+    } else {
+      document.getElementById('tabLogin').classList.remove('active');
+      document.getElementById('tabRegister').classList.add('active');
+      document.getElementById('loginForm').style.display = 'none';
+      document.getElementById('registerForm').style.display = 'block';
+    }
+  }
+
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          action: 'customerLogin',
+          whatsapp: document.getElementById('loginWa').value,
+          pin: document.getElementById('loginPin').value
+        })
+      });
+      const d = await res.json();
+      if (d.status === 'success') {
+        localStorage.setItem('cust_token', d.token);
+        localStorage.setItem('washpro_customer', JSON.stringify(d));
+        goTo('cust-dash');
+      } else alert(d.message);
+    } catch { alert('Koneksi gagal'); }
+  });
+
+  document.getElementById('registerForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          action: 'customerRegister',
+          nama: document.getElementById('regNama').value,
+          whatsapp: document.getElementById('regWa').value,
+          alamat: document.getElementById('regAlamat').value,
+          pin: document.getElementById('regPin').value
+        })
+      });
+      const d = await res.json();
+      if (d.status === 'success') {
+        localStorage.setItem('cust_token', d.token);
+        localStorage.setItem('washpro_customer', JSON.stringify(d));
+        showToast('success', 'Pendaftaran Berhasil!');
+        goTo('cust-dash');
+      } else alert(d.message);
+    } catch { alert('Koneksi gagal'); }
+  });
+
+  function logoutCustomer() {
+    localStorage.removeItem('cust_token');
+    localStorage.removeItem('washpro_customer');
+    goTo('home');
+  }
+
+  async function loadCustomerOrders() {
+    const cust = JSON.parse(localStorage.getItem('washpro_customer') || '{}');
+    if(cust.nama) document.getElementById('custNameDisplay').textContent = cust.nama;
+
+    try {
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'getMyOrders', token: localStorage.getItem('cust_token') })
+      });
+      const d = await res.json();
+      if (d.code === 'AUTH') { logoutCustomer(); return; }
+      
+      const box = document.getElementById('custOrdersList');
+      if (!d.orders || d.orders.length === 0) {
+        box.innerHTML = '<div class="alert alert-info">Belum ada pesanan. <a href="#" onclick="goTo(\'home\')">Pesan sekarang</a></div>';
+        return;
+      }
+
+      box.innerHTML = d.orders.map(o => {
+        const idx = STATUS_STEPS.indexOf(o.status);
+        const timeline = STATUS_STEPS.map((s, i) => {
+          const cls = i < idx ? 'done' : (i === idx ? 'done' : '');
+          return `<div class="step ${cls}"><div class="dot"><i class="fas ${ICONS[i]}"></i></div><div class="label-step">${s}</div></div>`;
+        }).join('');
+
+        return `
+          <div class="order-card">
+            <div class="d-flex justify-content-between mb-2">
+              <div><span class="status-badge st-${o.status}">${o.status}</span> <span class="small text-muted ms-2">${o.orderId}</span></div>
+              <div class="fw-bold text-primary">Rp ${Number(o.total).toLocaleString('id-ID')}</div>
+            </div>
+            <div class="small mb-3"><b>${o.layanan}</b> (${o.berat} kg/pcs)</div>
+            ${o.status !== 'Dibatalkan' ? `<div class="timeline">${timeline}</div>` : ''}
+          </div>
+        `;
+      }).join('');
+    } catch { alert('Gagal load data'); }
+  }
+
+  document.getElementById('adminLoginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('btnLoginAdmin');
+    btn.disabled = true; btn.innerHTML = 'Memeriksa...';
+    try {
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          action: 'login',
+          username: document.getElementById('adminUser').value.trim(),
+          password: document.getElementById('adminPass').value
+        })
+      });
+      const data = await res.json();
+      if (data.status === 'success') {
+        localStorage.setItem('admin_token', data.token);
+        goTo('admin-dash');
+      } else {
+        document.getElementById('adminLoginError').textContent = data.message;
+        document.getElementById('adminLoginError').style.display = 'block';
+      }
+    } catch (err) { alert('Koneksi gagal.'); }
+    btn.disabled = false; btn.innerHTML = 'Masuk Dashboard';
+  });
+
+  function logoutAdmin() {
+    localStorage.removeItem('admin_token');
+    goTo('home');
+  }
+
+  async function loadAdminOrders() {
+    try {
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'getOrders', token: localStorage.getItem('admin_token') })
+      });
+      const data = await res.json();
+      if (data.code === 'AUTH') { logoutAdmin(); return; }
+      allAdminOrders = data.orders || [];
+      renderAdminDashboard();
+    } catch (err) { alert('Gagal load data: ' + err.message); }
+  }
+
+  document.querySelectorAll('#adminFilterTabs .nav-link').forEach(tab => {
+    tab.addEventListener('click', function(e) {
+      e.preventDefault();
+      document.querySelectorAll('#adminFilterTabs .nav-link').forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+      adminFilter = this.getAttribute('data-filter');
+      renderAdminDashboard();
+    });
+  });
+
+  document.getElementById('adminSearch').addEventListener('input', function(e) {
+    adminSearchText = e.target.value.toLowerCase();
+    renderAdminDashboard();
+  });
+
+  function renderAdminDashboard() {
+    const counts = { Semua: allAdminOrders.length, Masuk: 0, Proses: 0, Selesai: 0, Diantar: 0 };
+    allAdminOrders.forEach(o => { if (counts[o.status] !== undefined) counts[o.status]++; });
+    
+    document.getElementById('adminStatsRow').innerHTML = `
+      <div class="col-6 col-lg-3"><div class="stat-card stat-masuk"><div class="label">Masuk</div><div class="value">${counts.Masuk}</div></div></div>
+      <div class="col-6 col-lg-3"><div class="stat-card stat-proses"><div class="label">Proses</div><div class="value">${counts.Proses}</div></div></div>
+      <div class="col-6 col-lg-3"><div class="stat-card stat-selesai"><div class="label">Selesai</div><div class="value">${counts.Selesai}</div></div></div>
+      <div class="col-6 col-lg-3"><div class="stat-card stat-diantar"><div class="label">Diantar</div><div class="value">${counts.Diantar}</div></div></div>
+    `;
+
+    let list = allAdminOrders.filter(o => {
+      const matchFilter = adminFilter === 'Semua' || o.status === adminFilter;
+      
+      const namaCocok = String(o.nama || '').toLowerCase().includes(adminSearchText);
+      const waCocok = String(o.whatsapp || '').includes(adminSearchText);
+      const idCocok = String(o.orderId || '').toLowerCase().includes(adminSearchText);
+      
+      const matchSearch = adminSearchText === '' || namaCocok || waCocok || idCocok;
+
+      return matchFilter && matchSearch;
+    });
+
+    if (list.length === 0) {
+      document.getElementById('adminOrdersList').innerHTML = '<div class="text-center py-5 text-muted"><i class="fas fa-inbox fa-3x mb-3 opacity-25"></i><br>Tidak ada pesanan yang cocok.</div>';
+      return;
+    }
+
+    document.getElementById('adminOrdersList').innerHTML = list.map(o => `
+      <div class="order-card">
+        <div class="row align-items-center">
+          <div class="col-md-5">
+            <div class="fw-bold">${o.nama}</div>
+            <div class="small text-muted">${o.orderId} • ${o.whatsapp}</div>
+            <div class="small mt-1"><b>${o.layanan}</b> (${o.berat} kg/pcs) - Rp ${Number(o.total).toLocaleString('id-ID')}</div>
+            <div class="small text-muted mt-1">${o.alamat}</div>
+          </div>
+          <div class="col-md-4 mt-2 mt-md-0 text-md-center">
+            <span class="status-badge st-${o.status}">${o.status}</span>
+          </div>
+          <div class="col-md-3 text-md-end mt-2 mt-md-0">
+            <select class="form-select form-select-sm" onchange="updateAdminStatus('${o.orderId}', this.value)">
+              ${ADMIN_STATUS_LIST.map(s => `<option value="${s}" ${s === o.status ? 'selected' : ''}>Ubah: ${s}</option>`).join('')}
+            </select>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  async function updateAdminStatus(orderId, newStatus) {
+    try {
+      await fetch(APPS_SCRIPT_URL, {
+        method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'updateStatus', token: localStorage.getItem('admin_token'), orderId, status: newStatus })
+      });
+      showToast('success', 'Status berhasil diubah!');
+      loadAdminOrders();
+    } catch (err) { alert('Gagal ubah status: ' + err.message); }
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('admin_token')) goTo('admin-dash');
+    else if (localStorage.getItem('cust_token')) goTo('cust-dash');
+    else goTo('home');
+  });
+
+</script>
+</body>
+</html>
